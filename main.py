@@ -1,3 +1,5 @@
+import random
+
 class Block:
 
     def __init__(self, timeslot, identifier, is_empty, is_immutable):
@@ -17,4 +19,18 @@ class Chain(list):
 
 
 def merge(chains):
-    pass
+    sizes = [chain.get_chain_size() for chain in chains]
+    dict_sizes = enumerate(sizes)
+    deterministic_ordering = []
+    while dict_sizes:
+        m = max(dict_sizes.values())
+        indexes = [key for key,value in dict_sizes.items() if value==m]
+        if len(indexes)==1:
+            dict_sizes.pop(indexes[0])
+            deterministic_ordering.append(indexes[0])
+        else:
+            for item in indexes:
+                dict_sizes.pop(item)
+            random.shuffle(indexes)
+            deterministic_ordering += indexes
+    return deterministic_ordering
