@@ -30,9 +30,17 @@ class Chain(list):
         dpoint = i
         mx = max(len(self), len(another))
         return {
-            0: self[i:m],
-            1: self[i:m],
+            0: self[dpoint:m],
+            1: self[dpoint:m],
         }
+
+    def get_merging_point(self):
+        while i != len(self) and (not stop):
+            stop = not self[i].is_immutable
+            if not stop:
+                i+=1
+        mpoint = i
+        return mpoint
 
 
 def merge(chains):
