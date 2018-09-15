@@ -7,7 +7,14 @@ class Block:
         self.is_immutable = is_immutable
 
 class Chain(list):
-    pass
+
+    def get_chain_size(self):
+        r = 0
+        for item in self:
+            if not item.is_empty:
+                r+=1
+        return r
+
 
 def merge(chains):
     pass
