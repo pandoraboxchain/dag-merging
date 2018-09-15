@@ -33,4 +33,7 @@ def merge(chains):
                 dict_sizes.pop(item)
             random.shuffle(indexes)
             deterministic_ordering += indexes
+    
+    active = deterministic_ordering[0]
+
     return deterministic_ordering
