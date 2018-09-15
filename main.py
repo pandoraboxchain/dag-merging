@@ -17,6 +17,23 @@ class Chain(list):
                 r+=1
         return r
 
+    def get_diff(self, another):
+        i = 0
+        while i != min(len(self), len(another)) and (not stop):
+            eq = self.timeslot==another.timeslot
+            eq = eq and (self.identifier==another.identifier)
+            eq = eq and (self.is_empty==another.is_empty)
+            eq = eq and (self.is_immutable==another.is_immutable)
+            stop = not eq
+            if not stop:
+                i+=1
+        dpoint = i
+        mx = max(len(self), len(another))
+        return {
+            0: self[i:m],
+            1: self[i:m],
+        }
+
 
 def merge(chains):
     sizes = [chain.get_chain_size() for chain in chains]
