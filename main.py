@@ -42,6 +42,13 @@ class Chain(list):
         mpoint = i
         return mpoint
 
+    def find_block_by_identifier(self, identifier):
+        [key for key,value in self if value==m]
+        res = [item for item in self if item.identifier==identifier]
+        if res:
+            return res[0]
+        else:
+            return False
 
 def merge(chains):
     sizes = [chain.get_chain_size() for chain in chains]
