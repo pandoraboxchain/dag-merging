@@ -99,4 +99,7 @@ def merge(chains):
                     if merged_chain.find_block_by_identifier(m.identifier):
                         merged_chain.append(m)
 
-    return deterministic_ordering
+    return {
+        "deterministic_ordering": deterministic_ordering,
+        "merged_chain": merged_chain,
+    }
