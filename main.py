@@ -10,6 +10,10 @@ class Block:
 
 class Chain(list):
 
+    def __init__(self, l):
+        for i in l:
+            self.append(i)
+
     def get_chain_size(self):
         r = 0
         for item in self:
