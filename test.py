@@ -13,7 +13,7 @@ class TestSimple(unittest.TestCase):
         zero_chain = Chain([zero, first, second])
         first_chain = Chain([zero, third])
 
-        res = merge(zero_chain, first_chain)
+        res = merge([zero_chain, first_chain])
         self.assertTrue(res)
 
 unittest.main()
