@@ -49,7 +49,6 @@ class Chain(list):
         return mpoint
 
     def find_block_by_identifier(self, identifier):
-        [key for key,value in self if value==m]
         res = [item for item in self if item.identifier==identifier]
         if res:
             return res[0]
@@ -80,24 +79,25 @@ def merge(chains):
 
     active = chains[deterministic_ordering[0]]
     mp = active.get_merging_point()
+    active_merged_point = Chain(active[:mp])
     merged_chain = Chain(active[:mp])
 
     for doi in deterministic_ordering[1:]:
-        diffchain = active.get_diff(chains[doi])[1]
+        diffchain = active_merged_point.get_diff(chains[doi])[1]
         im_chain = diffchain.get_all_immutable()
         if im_chain:
             for im in im_chain:
-                if im.is_empty:
-                    if merged_chain.find_block_by_identifier(im.identifier):
+                if not im.is_empty:
+                    if not merged_chain.find_block_by_identifier(im.identifier):
                         merged_chain.append(im)
     
     for doi in deterministic_ordering:
-        diffchain = active.get_diff(chains[doi])[1]
+        diffchain = active_merged_point.get_diff(chains[doi])[1]
         m_chain = diffchain.get_all_mutable()
         if m_chain:
             for m in m_chain:
-                if m.is_empty:
-                    if merged_chain.find_block_by_identifier(m.identifier):
+                if not m.is_empty:
+                    if not merged_chain.find_block_by_identifier(m.identifier):
                         merged_chain.append(m)
 
     return {

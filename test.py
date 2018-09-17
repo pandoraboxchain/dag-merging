@@ -14,6 +14,13 @@ class TestSimple(unittest.TestCase):
         first_chain = Chain([zero, third])
 
         res = merge([zero_chain, first_chain])
-        self.assertTrue(res)
+        self.assertEqual(res["deterministic_ordering"][0], 0)
+        self.assertEqual(res["deterministic_ordering"][1], 1)
+
+        self.assertEqual(len(res["merged_chain"]), 4)
+        self.assertEqual(res["merged_chain"][0], zero)
+        self.assertEqual(res["merged_chain"][1], first)
+        self.assertEqual(res["merged_chain"][2], second)
+        self.assertEqual(res["merged_chain"][3], third)
 
 unittest.main()
