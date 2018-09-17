@@ -65,7 +65,7 @@ def merge(chains):
     dict_sizes = enumerate(sizes)
     deterministic_ordering = []
     while dict_sizes:
-        m = max(dict_sizes.values())
+        m = max(sizes.values())
         indexes = [key for key,value in dict_sizes.items() if value==m]
         if len(indexes)==1:
             dict_sizes.pop(indexes[0])
