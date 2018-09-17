@@ -80,8 +80,7 @@ def merge(chains):
 
     active = chains[deterministic_ordering[0]]
     mp = active.get_merging_point()
-    # TODO: check list or Chain
-    merged_chain = active[:mp]
+    merged_chain = Chain(active[:mp])
 
     for doi in deterministic_ordering[1:]:
         diffchain = active.get_diff(chains[doi])[1]
