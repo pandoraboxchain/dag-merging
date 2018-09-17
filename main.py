@@ -23,22 +23,24 @@ class Chain(list):
 
     def get_diff(self, another):
         i = 0
+        stop = False
         while i != min(len(self), len(another)) and (not stop):
-            eq = self.timeslot==another.timeslot
-            eq = eq and (self.identifier==another.identifier)
-            eq = eq and (self.is_empty==another.is_empty)
-            eq = eq and (self.is_immutable==another.is_immutable)
+            eq = self[i].timeslot==another[i].timeslot
+            eq = eq and (self[i].identifier==another[i].identifier)
+            eq = eq and (self[i].is_empty==another[i].is_empty)
+            eq = eq and (self[i].is_immutable==another[i].is_immutable)
             stop = not eq
             if not stop:
                 i+=1
         dpoint = i
-        mx = max(len(self), len(another))
         return {
-            0: self[dpoint:m],
-            1: another[dpoint:m],
+            0: Chain(self[dpoint:]),
+            1: Chain(another[dpoint:]),
         }
 
     def get_merging_point(self):
+        i = 0
+        stop = False
         while i != len(self) and (not stop):
             stop = not self[i].is_immutable
             if not stop:
@@ -62,10 +64,10 @@ class Chain(list):
 
 def merge(chains):
     sizes = [chain.get_chain_size() for chain in chains]
-    dict_sizes = enumerate(sizes)
+    dict_sizes = dict(enumerate(sizes))
     deterministic_ordering = []
     while dict_sizes:
-        m = max(sizes.values())
+        m = max(dict_sizes.values())
         indexes = [key for key,value in dict_sizes.items() if value==m]
         if len(indexes)==1:
             dict_sizes.pop(indexes[0])
@@ -76,15 +78,13 @@ def merge(chains):
             random.shuffle(indexes)
             deterministic_ordering += indexes
 
-    active = deterministic_ordering[0]
+    active = chains[deterministic_ordering[0]]
     mp = active.get_merging_point()
     # TODO: check list or Chain
     merged_chain = active[:mp]
 
     for doi in deterministic_ordering[1:]:
-        diff = active.get_diff(chains[doi])[1]
-        # TODO: check list or Chain
-        diffchain = chains[doi][diff:]
+        diffchain = active.get_diff(chains[doi])[1]
         im_chain = diffchain.get_all_immutable()
         if im_chain:
             for im in im_chain:
@@ -93,9 +93,7 @@ def merge(chains):
                         merged_chain.append(im)
     
     for doi in deterministic_ordering:
-        diff = active.get_diff(chains[doi])[1]
-        # TODO: check list or Chain
-        diffchain = chains[doi][diff:]
+        diffchain = active.get_diff(chains[doi])[1]
         m_chain = diffchain.get_all_mutable()
         if m_chain:
             for m in m_chain:
