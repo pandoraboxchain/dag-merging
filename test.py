@@ -23,6 +23,26 @@ class TestSimple(unittest.TestCase):
         self.assertEqual(res["merged_chain"][2], second)
         self.assertEqual(res["merged_chain"][3], third)
 
+    def test_another_simple(self):
+        zero = Block(0, 0, False, True)
+        first = Block(1, 1, False, True)
+        second = Block(2, 2, False, False)
+        third = Block(3, 3, False, False)
+
+        zero_chain = Chain([zero, first, third])
+        first_chain = Chain([zero, second])
+
+        res = merge([zero_chain, first_chain])
+        self.assertEqual(res["deterministic_ordering"][0], 0)
+        self.assertEqual(res["deterministic_ordering"][1], 1)
+
+        self.assertEqual(len(res["merged_chain"]), 4)
+        self.assertEqual(res["merged_chain"][0], zero)
+        self.assertEqual(res["merged_chain"][1], first)
+        self.assertEqual(res["merged_chain"][2], third)
+        self.assertEqual(res["merged_chain"][3], second)
+        self.assertEqual(True, False)
+
     def test_3_with_im(self):
 
         zero = Block(0, 0, False, True)
