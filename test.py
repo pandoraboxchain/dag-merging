@@ -41,7 +41,40 @@ class TestSimple(unittest.TestCase):
         self.assertEqual(res["merged_chain"][1], first)
         self.assertEqual(res["merged_chain"][2], third)
         self.assertEqual(res["merged_chain"][3], second)
-        self.assertEqual(True, False)
+
+    def test_three_branches_with(self):
+        genesis = Block(0, 0, False, True)
+
+        zero_chain = Chain([
+            genesis,
+            Block(1, 1, False, False),
+            Block(2, 2, True, False),
+            Block(3, 3, True, False),
+            Block(4, 4, True, False),
+            Block(5, 5, True, False),
+            Block(6, 6, False, False),
+        ])
+
+        first_chain = Chain([
+            genesis,
+            Block(1, 7,  True, False),
+            Block(2, 8,  False, False),
+            Block(3, 9,  False, False),
+            Block(4, 10, False, False),
+            Block(5, 11, False, False),
+            Block(6, 12, True, False),
+        ])
+
+        res = merge([zero_chain, first_chain])
+
+        self.assertEqual(len(res["merged_chain"]), 6)
+        self.assertEqual(res["merged_chain"][0].timeslot, 0)
+        self.assertEqual(res["merged_chain"][1].timeslot, 1)
+        self.assertEqual(res["merged_chain"][2].timeslot, 2)
+        self.assertEqual(res["merged_chain"][3].timeslot, 3)
+        self.assertEqual(res["merged_chain"][4].timeslot, 4)
+        self.assertEqual(res["merged_chain"][5].timeslot, 5)
+        self.assertEqual(res["merged_chain"][6].timeslot, 6)
 
     def test_3_with_im(self):
 
