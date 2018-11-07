@@ -41,7 +41,6 @@ class TestSimple(unittest.TestCase):
         self.assertEqual(res["merged_chain"][1], first)
         self.assertEqual(res["merged_chain"][2], third)
         self.assertEqual(res["merged_chain"][3], second)
-        self.assertEqual(True, False)
 
     def test_3_with_im(self):
 
