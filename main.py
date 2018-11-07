@@ -87,18 +87,16 @@ def merge(chains):
         im_chain = diffchain.get_all_immutable()
         if im_chain:
             for im in im_chain:
-                if not im.is_empty:
-                    if not merged_chain.find_block_by_identifier(im.identifier):
-                        merged_chain.append(im)
+                if not merged_chain.find_block_by_identifier(im.identifier):
+                    merged_chain.append(im)
     
     for doi in deterministic_ordering:
         diffchain = active_merged_point.get_diff(chains[doi])[1]
         m_chain = diffchain.get_all_mutable()
         if m_chain:
             for m in m_chain:
-                if not m.is_empty:
-                    if not merged_chain.find_block_by_identifier(m.identifier):
-                        merged_chain.append(m)
+                if not merged_chain.find_block_by_identifier(m.identifier):
+                    merged_chain.append(m)
 
     return {
         "deterministic_ordering": deterministic_ordering,
